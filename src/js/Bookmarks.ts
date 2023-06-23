@@ -161,13 +161,13 @@ export const bookmarkedListener = () => {
   });
 };
 
-bookmarksBtn!.addEventListener('click', () => {
+bookmarksBtn!.addEventListener('click', async () => {
   main.classList.toggle('hidden');
   bookmarksModal!.classList.toggle('hidden');
   bookmarksBtn!.classList.toggle('active');
 
   if (bookmarksModal!.classList.contains('hidden')) {
-    getMovies(prevSearchTerm);
+    await getMovies(prevSearchTerm);
     addTrailerBtnListener();
     addBookmarkListener();
     return;

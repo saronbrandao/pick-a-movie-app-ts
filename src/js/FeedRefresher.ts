@@ -17,9 +17,9 @@ const options: IntersectionObserverOptions = {
 
 const observer = new IntersectionObserver(
   (elements: IntersectionObserverEntry[]) => {
-    elements.forEach((el: IntersectionObserverEntry) => {
+    elements.forEach( async (el: IntersectionObserverEntry) => {
       if (el.isIntersecting) {
-        getMoviesRefresher();
+        await getMoviesRefresher();
         addTrailerBtnListener();
         addBookmarkListener();
       } else {

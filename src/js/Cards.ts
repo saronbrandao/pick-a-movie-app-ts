@@ -4,12 +4,14 @@ import { addTrailerBtnListener, addBookmarkListener } from './helper';
 const form = document.getElementById('form') as HTMLFormElement;
 const search = document.getElementById('search') as HTMLInputElement;
 const main = document.getElementById('main') as HTMLElement;
-const bookmarksModal = document.querySelector('.bookmarks-modal') as HTMLFormElement;
+const bookmarksModal = document.querySelector(
+  '.bookmarks-modal'
+) as HTMLFormElement;
 const bookmarksBtn = document.querySelector('.bookmarks') as HTMLFormElement;
 
 export let prevSearchTerm: string;
 
-form.addEventListener('submit', (e: Event): void => {
+form.addEventListener('submit', async (e: Event): Promise<void> => {
   e.preventDefault();
 
   const searchTerm: string = search.value;
@@ -20,7 +22,7 @@ form.addEventListener('submit', (e: Event): void => {
   bookmarksBtn?.classList.remove('active');
 
   if (search && searchTerm !== '') {
-    getMovies(searchTerm);
+    await getMovies(searchTerm);
     search.value = '';
     addTrailerBtnListener();
     addBookmarkListener();

@@ -1,4 +1,5 @@
 import { IMG_PATH, SEARCH_API, GENRES } from './Config';
+import { bookmarks } from './Bookmarks';
 const main = document.getElementById('main') as HTMLElement;
 
 let pageNum: number = 1;
@@ -46,6 +47,7 @@ export const showMovies = (movies: any[]) => {
     const { title, poster_path, vote_average, overview, genre_ids } = movie;
     const genres: string[] = [];
 
+    // getting the gender based on the gernder id
     genre_ids.map((genre: number) => {
       if (genres.length === genre_ids.length - 1) {
         genres.push(GENRES[genre]);
@@ -71,7 +73,11 @@ export const showMovies = (movies: any[]) => {
     const movieEl = document.createElement('div');
 
     movieEl.classList.add('movie');
+    movieEl.classList.add('main');
     movieEl.setAttribute('data-id', movie.id);
+
+    const isBookmarked = bookmarks.some((el) => el.id === movie.id);
+    // console.log(isBookmarked);
 
     const bgImage = poster_path
       ? `
@@ -113,11 +119,15 @@ export const showMovies = (movies: any[]) => {
       </div>
       <div class="mr-grid actors-row"></div>
       <div class="mr-grid action-row">
-        <div class="col2">
+        <div class="col2 btns">
           <div class="watch-btn">
             <h3><i class="material-icons">&#xE037;</i>TRAILER</h3>
           </div>
-        </div>
+          <div class="bookmark">
+            <i class="${
+              isBookmarked ? 'fa-solid' : 'fa-regular'
+            } fa-bookmark"></i>
+          </div>
       </div>
     </div>
   `;

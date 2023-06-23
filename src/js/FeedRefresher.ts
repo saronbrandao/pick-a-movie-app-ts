@@ -1,5 +1,5 @@
 import { getMoviesRefresher } from './DataFetching';
-import { addTrailerBtnListener } from './helper';
+import { addTrailerBtnListener, addBookmarkListener } from './helper';
 
 const pageEnd = document.querySelector('.page-end') as HTMLElement;
 
@@ -21,6 +21,7 @@ const observer = new IntersectionObserver(
       if (el.isIntersecting) {
         getMoviesRefresher();
         addTrailerBtnListener();
+        addBookmarkListener();
       } else {
         return;
       }

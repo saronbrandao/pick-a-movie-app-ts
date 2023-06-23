@@ -1,6 +1,15 @@
 import { getTrailerLink } from './DataFetching';
+import {
+  addBookmark,
+  removeBookmark,
+  bookmarkedListener,
+  bookmarks as myBookmarks,
+} from './Bookmarks';
 
 const main = document.getElementById('main')!;
+const body = document.getElementsByTagName('BODY')[0];
+
+// console.log(body);
 
 // this function will get the clicked movie id, and use its id to fetch the trailer link and return it.
 export const addTrailerBtnListener = (): void => {
@@ -47,7 +56,7 @@ export const addTrailerBtnListener = (): void => {
             </div>
           </div>`;
 
-          main.appendChild(videoPlayerModal);
+          body.appendChild(videoPlayerModal);
 
           videoPlayerModal.addEventListener('click', (e) => {
             const currentEl = e.target as HTMLElement;
@@ -58,6 +67,43 @@ export const addTrailerBtnListener = (): void => {
               return;
             }
           });
+        }
+      });
+    });
+  }, 200);
+};
+
+// stills testing it
+export const addBookmarkListener = () => {
+  setTimeout(() => {
+    const bookmarks = document.querySelectorAll('.bookmark');
+    bookmarks.forEach((bookmark) => {
+      // console.log(bookmark);
+
+      if (bookmark.getAttribute('listener')) {
+        return;
+      }
+      bookmark.setAttribute('listener', 'true');
+      bookmark.addEventListener('click', (e) => {
+        const id: number = +e.target.closest('.movie').getAttribute('data-id');
+
+        // console.log(myBookmarks);
+
+        const isBookmarked = myBookmarks.some((el) => el.id === +id);
+
+        // console.log(isBookmarked);
+
+        if (isBookmarked) {
+          e.target.classList.remove('fa-solid');
+          e.target.classList.add('fa-regular');
+          removeBookmark(id);
+          return;
+        } else {
+          e.target.classList.remove('fa-regular');
+          e.target.classList.add('fa-solid');
+          addBookmark(id);
+
+          return;
         }
       });
     });

@@ -93,10 +93,29 @@
   border-radius: 4px;
   cursor: pointer;
   transition: all 0.2s;
+  &.main {
+    animation-name: fade-in;
+    animation-duration: 1s;
+  }
 
   &:hover {
     transform: scale(1.05);
     z-index: 100;
+  }
+
+  .btns {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: $brand-color;
+
+    .bookmark {
+      transition: all 0.2s;
+      &:hover {
+        transform: scale(1.2);
+      }
+    }
   }
 }
 
@@ -233,5 +252,18 @@
   h1 {
     color: $brand-color;
     font-weight: bold;
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+    filter: saturate(0);
+  }
+  100% {
+    filter: saturate(1);
   }
 }

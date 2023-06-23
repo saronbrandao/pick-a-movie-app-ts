@@ -78,19 +78,33 @@ export const addBookmarkListener = () => {
       }
       bookmark.setAttribute('listener', 'true');
       bookmark.addEventListener('click', (e) => {
-        const id: number = +e.target.closest('.movie').getAttribute('data-id');
+        const targetElement = e.target as HTMLElement;
+        const movieElement = targetElement.closest('.movie');
 
-        const isBookmarked = myBookmarks.some((el) => el.id === +id);
+        if (!movieElement) return;
+        // if(targetElement) return;
+        // const id: number = +targetElement.closest('.movie').getAttribute('data-id');
+        const id = movieElement.getAttribute('data-id');
+
+        if (!id) return;
+
+        const isBookmarked = myBookmarks.some((el) => +el.id! === +id);
 
         if (isBookmarked) {
-          e.target.classList.remove('fa-solid');
-          e.target.classList.add('fa-regular');
-          removeBookmark(id);
+          const targetElement = e.target as HTMLElement;
+          targetElement?.classList.remove('fa-solid');
+          targetElement?.classList.add('fa-regular');
+          // e.target.classList.remove('fa-solid');
+          // e.target.classList.add('fa-regular');
+          removeBookmark(+id);
           return;
         } else {
-          e.target.classList.remove('fa-regular');
-          e.target.classList.add('fa-solid');
-          addBookmark(id);
+          const targetElement = e.target as HTMLElement;
+          targetElement?.classList.remove('fa-regular');
+          targetElement?.classList.add('fa-solid');
+          // e.target.classList.remove('fa-regular');
+          // e.target.classList.add('fa-solid');
+          addBookmark(+id);
 
           return;
         }
@@ -100,16 +114,16 @@ export const addBookmarkListener = () => {
 };
 
 export const markupGenerator = (
-  title,
-  genres,
-  poster_path,
-  bgImage,
-  vote,
-  reaction,
-  overview,
-  movie,
-  isBookmarked = false,
-  fromBookmarks = false
+  title: string,
+  genres: string[],
+  poster_path: string,
+  bgImage: string,
+  vote: number,
+  reaction: () => string | undefined,
+  overview: string,
+  movie: any,
+  isBookmarked: boolean = false,
+  fromBookmarks: boolean = false
 ) => {
   console.log(fromBookmarks);
 

@@ -60,7 +60,7 @@ export const showMovies = (movies: any[]) => {
 
     const vote: number = vote_average.toFixed(1);
 
-    const reaction = () => {
+    const reaction = (): string | undefined => {
       if (vote < 5) {
         return emoji.sad;
       } else if (vote <= 6) {
@@ -78,7 +78,7 @@ export const showMovies = (movies: any[]) => {
     movieEl.classList.add('main');
     movieEl.setAttribute('data-id', movie.id);
 
-    const isBookmarked = bookmarks.some((el) => el.id === movie.id);
+    const isBookmarked = bookmarks.some(el => el.id === movie.id);
 
     const bgImage = poster_path
       ? `

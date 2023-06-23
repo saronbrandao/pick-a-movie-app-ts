@@ -11,7 +11,17 @@ const bookmarksBtn = document.querySelector('.bookmarks');
 const main = document.getElementById('main') as HTMLElement;
 const bookmarksModal = document.querySelector('.bookmarks-modal');
 const fromBookmarks = true;
-export const bookmarks: [] = [];
+
+interface Bookmark {
+  title: string;
+  poster_path: string;
+  vote_average: number;
+  overview: string;
+  genres: [];
+  genre_ids: [];
+  id?: string;
+}
+export const bookmarks: Bookmark[] = [];
 const isBookmarked = true;
 
 interface Emoji {
@@ -38,25 +48,24 @@ const bookmarksToLocalStorage = () => {
 const bookmarksLocalStorageChecker = () => {
   if (!localStorage.getItem('myBookmarks')) return;
 
-  const localSotageBookmarks = JSON.parse(localStorage.getItem('myBookmarks'));
+  const localSotageBookmarks = JSON.parse(localStorage.getItem('myBookmarks')!);
 
   bookmarks.length = 0;
 
-  localSotageBookmarks.forEach((el) => {
+  localSotageBookmarks.forEach((el: any) => {
     bookmarks.push(el);
   });
-
 };
 
 bookmarksLocalStorageChecker();
 
 export const removeBookmark = async (id: number) => {
-
-  const newBookmarks = bookmarks.filter((el) => el.id !== id);
+  const newBookmarks = bookmarks.filter((el: any) => el.id! !== id);
 
   bookmarks.length = 0;
 
   if (newBookmarks.length < 1) {
+    if (!bookmarksModal) return;
     bookmarksModal.innerHTML = 'There are no bookmarks';
     return;
   }
@@ -69,6 +78,7 @@ export const removeBookmark = async (id: number) => {
 
     bookmarks.push(data);
 
+    if (!bookmarksModal) return;
     bookmarksModal.innerHTML = '';
 
     bookmarks.forEach((movie) => {
@@ -90,7 +100,9 @@ export const removeBookmark = async (id: number) => {
         }
       });
 
-      const vote: number = vote_average.toFixed(1);
+      // const voteAvg = +vote_average
+
+      const vote: number = +vote_average.toFixed(1);
 
       const reaction = () => {
         if (vote < 5) {
@@ -108,7 +120,7 @@ export const removeBookmark = async (id: number) => {
 
       movieEl.classList.add('movie');
       movieEl.classList.add('bookmarked');
-      movieEl.setAttribute('data-id', movie.id);
+      movieEl.setAttribute('data-id', `${movie.id}`);
 
       const bgImage = poster_path
         ? `
@@ -143,18 +155,18 @@ export const bookmarkedListener = () => {
   bookmerkedMovies.forEach((movie) => {
     movie.addEventListener('click', () => {
       if (!movie.getAttribute('data-id')) return;
-      const id = +movie.getAttribute('data-id');
+      const id = +movie.getAttribute('data-id')!;
       removeBookmark(id);
     });
   });
 };
 
-bookmarksBtn.addEventListener('click', () => {
+bookmarksBtn!.addEventListener('click', () => {
   main.classList.toggle('hidden');
-  bookmarksModal.classList.toggle('hidden');
-  bookmarksBtn.classList.toggle('active');
+  bookmarksModal!.classList.toggle('hidden');
+  bookmarksBtn!.classList.toggle('active');
 
-  if (bookmarksModal.classList.contains('hidden')) {
+  if (bookmarksModal!.classList.contains('hidden')) {
     getMovies(prevSearchTerm);
     addTrailerBtnListener();
     addBookmarkListener();
@@ -162,11 +174,11 @@ bookmarksBtn.addEventListener('click', () => {
   }
 
   if (bookmarks.length < 1) {
-    bookmarksModal.innerHTML = 'There are no bookmarks';
+    bookmarksModal!.innerHTML = 'There are no bookmarks';
     return;
   }
 
-  bookmarksModal.innerHTML = '';
+  bookmarksModal!.innerHTML = '';
 
   bookmarks.forEach((movie) => {
     const {
@@ -187,7 +199,7 @@ bookmarksBtn.addEventListener('click', () => {
       }
     });
 
-    const vote: number = vote_average.toFixed(1);
+    const vote: number = +vote_average.toFixed(1);
 
     const reaction = () => {
       if (vote < 5) {
@@ -205,7 +217,7 @@ bookmarksBtn.addEventListener('click', () => {
 
     movieEl.classList.add('movie');
     movieEl.classList.add('bookmarked');
-    movieEl.setAttribute('data-id', movie.id);
+    movieEl.setAttribute('data-id', `${movie.id}`);
 
     const bgImage = poster_path
       ? `
@@ -226,14 +238,14 @@ bookmarksBtn.addEventListener('click', () => {
       fromBookmarks
     );
 
-    bookmarksModal.appendChild(movieEl);
+    bookmarksModal!.appendChild(movieEl);
   });
   bookmarkedListener();
   addTrailerBtnListener();
   window.scrollTo(0, 0);
 });
 
-export const addBookmark = async (id) => {
+export const addBookmark = async (id: number) => {
   const res = await fetch(
     `https://api.themoviedb.org/3/movie/${id}?api_key=8d9871ba48a0b98e7eca6525a75a97a9`
   );

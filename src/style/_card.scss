@@ -1,0 +1,237 @@
+.container {
+  width: 100%;
+  height: 100%;
+}
+
+.cellphone-container {
+  width: 375px;
+  height: 650px;
+  background-color: #1e1b26;
+  margin: 60px auto 0 auto;
+  box-shadow: 5px 5px 115px -14px black;
+  border-radius: 4px;
+}
+
+.menu {
+  position: absolute;
+  right: 12px;
+  top: 6px;
+  i {
+    font-size: 40px;
+    color: $brand-color;
+    filter: drop-shadow(4px 4px 10px rgba(0, 0, 0, 0.5));
+  }
+}
+
+.movie-img {
+  width: 100%;
+  height: 380px;
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  mask-image: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    color-stop(0, rgba(0, 0, 0, 1)),
+    color-stop(0.35, rgba(0, 0, 0, 1)),
+    color-stop(0.5, rgba(0, 0, 0, 1)),
+    color-stop(0.65, rgba(0, 0, 0, 1)),
+    color-stop(0.85, rgba(0, 0, 0, 0.6)),
+    color-stop(1, rgba(0, 0, 0, 0))
+  );
+  -webkit-mask-image: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    color-stop(0, rgba(0, 0, 0, 1)),
+    color-stop(0.35, rgba(0, 0, 0, 1)),
+    color-stop(0.5, rgba(0, 0, 0, 1)),
+    color-stop(0.65, rgba(0, 0, 0, 1)),
+    color-stop(0.85, rgba(0, 0, 0, 0.6)),
+    color-stop(1, rgba(0, 0, 0, 0))
+  );
+  opacity: 0.8;
+
+  &--default {
+    background-image: url('/public/img/default_movie_cover.jpg');
+  }
+}
+
+.movie {
+  background: -moz-linear-gradient(
+    top,
+    rgba(255, 255, 255, 0) 38%,
+    rgba(255, 255, 255, 0.06) 39%,
+    rgba(30, 27, 38, 0.88) 53%,
+    rgba(30, 27, 38, 1) 55%
+  );
+  background: -webkit-linear-gradient(
+    top,
+    rgba(255, 255, 255, 0) 38%,
+    rgba(255, 255, 255, 0.06) 39%,
+    rgba(30, 27, 38, 0.88) 53%,
+    rgba(30, 27, 38, 1) 55%
+  );
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0) 38%,
+    rgba(255, 255, 255, 0.06) 39%,
+    rgba(30, 27, 38, 0.88) 53%,
+    rgba(30, 27, 38, 1) 55%
+  );
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#1e1b26',GradientType=0 ); /* IE6-9 */
+  position: relative;
+  background-size: contain;
+  background-size: cover;
+  width: 330px;
+  height: 600px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    transform: scale(1.05);
+    z-index: 100;
+  }
+}
+
+.text-movie-cont {
+  padding: 0px 12px 10px 12px;
+  text-align: justify;
+  position: absolute;
+  bottom: 0;
+  background-color: #1e1b26;
+  width: 100%;
+}
+
+.action-btn {
+  text-align: right;
+  i {
+    color: $brand-color;
+    font-size: 28px;
+    text-align: right;
+  }
+}
+
+.watch-btn {
+  h3 {
+    i {
+      font-size: 14px;
+      margin-right: 2px;
+      position: relative;
+      float: left;
+      line-height: 1;
+    }
+  }
+  display: block;
+  border: 1px solid $brand-color;
+  border-radius: 5px;
+  padding: 4px;
+  width: 140px;
+}
+
+.action-row {
+  margin-top: 24px;
+}
+
+.summary-row {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+}
+
+/** GRID STARTS **/
+
+.thegrid {
+  margin: 0 auto;
+}
+
+.elements-distance {
+  margin: 0px;
+}
+
+.mr-grid {
+  width: 100%;
+}
+.mr-grid:before,
+.mr-grid:after {
+  content: '';
+  display: table;
+}
+.mr-grid:after {
+  clear: both;
+}
+
+.col1,
+.col2,
+.col3,
+.col3rest,
+.col4,
+.col4rest,
+.col5,
+.col5rest,
+.col6,
+.col6rest {
+  margin: 0% 0.5% 0.5% 0.5%;
+  padding: 1%;
+  float: left;
+  display: block;
+}
+
+.col1 {
+  width: 98%;
+}
+.col2 {
+  width: 47%;
+}
+.col3 {
+  width: 30.3333333333%;
+}
+.col4 {
+  width: 22%;
+}
+.col5 {
+  width: 17%;
+}
+.col6 {
+  width: 13.6666666667%;
+}
+
+.col3rest {
+  width: 63.6666666667%;
+}
+.col4rest {
+  width: 72%;
+}
+.col5rest {
+  width: 77%;
+}
+.col6rest {
+  width: 80.3333333333%;
+}
+
+.dribbble-link {
+  width: 50px;
+  height: 50px;
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+  border-radius: 50px;
+}
+
+.title-gender {
+  width: 100%;
+  background-color: #1e1b26;
+  padding: 20px;
+  margin: 0;
+
+  h1 {
+    color: $brand-color;
+    font-weight: bold;
+  }
+}

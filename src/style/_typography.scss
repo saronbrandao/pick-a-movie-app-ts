@@ -1,0 +1,114 @@
+/* TYPOGRAPHY STARTS */
+/* Fonts */
+@import url(https://fonts.googleapis.com/css?family=Montserrat:400,700);
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800,300italic,400italic,600italic,700italic,800italic);
+
+$heading-font-family: 'Montserrat', sans-serif;
+$paragraph-font-family: 'Open Sans', sans-serif;
+
+$light: 300;
+$regular: 400;
+$semi-bold: 600;
+$bold: 700;
+$font-regular: 400;
+$mont-bold: 700;
+
+$text-movie-title: 36px;
+$text-summary: 12px;
+$text-action-btn: 14px;
+$text-movie-description: 12px;
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: $heading-font-family;
+  color: $accent-color;
+  margin: 0px;
+}
+
+h1 {
+  font-size: 1.4rem;
+  font-weight: $font-regular;
+}
+
+h3 {
+  font-size: $text-action-btn;
+  font-weight: $font-regular;
+  color: $brand-color;
+}
+
+h5 {
+  font-size: $text-summary;
+  font-weight: $font-regular;
+}
+
+.movie-gen {
+  margin: 0px;
+  padding: 0px;
+  li {
+    font-family: $paragraph-font-family;
+    font-size: $text-summary;
+    color: darken($accent-color, 40%);
+    width: auto;
+    display: block;
+    float: left;
+    margin-right: 6px;
+    font-weight: $semi-bold;
+  }
+}
+
+.movie-likes {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  @extend .movie-gen;
+  float: right;
+  li {
+    color: $brand-color;
+    &:last-child {
+      margin-right: 0px;
+    }
+    i {
+      font-size: 14px;
+      margin-right: 4px;
+      position: relative;
+      float: left;
+      line-height: 1;
+    }
+  }
+  p {
+    color: $brand-color;
+  }
+}
+
+.movie-details {
+  font-family: $paragraph-font-family;
+  font-size: $text-summary;
+  font-weight: $light;
+  color: darken($accent-color, 20%);
+  @extend .elements-distance;
+}
+
+.movie-description {
+  font-family: $paragraph-font-family;
+  font-size: $text-movie-description;
+  font-weight: $regular;
+  color: darken($accent-color, 30%);
+  @extend .elements-distance;
+  text-align: justify;
+  line-height: 1.3;
+}
+
+.movie-actors {
+  font-family: $paragraph-font-family;
+  font-size: $text-summary;
+  font-weight: $light;
+  color: $accent-color;
+  font-style: italic;
+  @extend .elements-distance;
+}
+
+/* TYPOGRAPHY ENDS */

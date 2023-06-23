@@ -1,12 +1,18 @@
 import { IMG_PATH, GENRES } from './Config';
 import { getMovies } from './DataFetching';
 import { prevSearchTerm } from './Cards';
-import { addTrailerBtnListener, addBookmarkListener } from './helper';
+import {
+  addTrailerBtnListener,
+  addBookmarkListener,
+  markupGenerator,
+} from './helper';
 
 const bookmarksBtn = document.querySelector('.bookmarks');
 const main = document.getElementById('main') as HTMLElement;
 const bookmarksModal = document.querySelector('.bookmarks-modal');
+const fromBookmarks = true;
 export const bookmarks: [] = [];
+const isBookmarked = true;
 
 interface Emoji {
   sad: string;
@@ -22,19 +28,33 @@ const emoji: Emoji = {
   happy: `<i class="fa-regular fa-face-laugh-beam"></i>`,
 };
 
-export const removeBookmark = async (id: number) => {
-  // console.log(id);
-  // console.log(bookmarks.length);
+// LOCAL STORAGE
 
-  // if (bookmarks.length < 1) {
-  //   bookmarksModal.innerHTML = '';
-  // }
+const bookmarksToLocalStorage = () => {
+  localStorage.setItem('myBookmarks', JSON.stringify(bookmarks));
+  bookmarksLocalStorageChecker();
+};
+
+const bookmarksLocalStorageChecker = () => {
+  if (!localStorage.getItem('myBookmarks')) return;
+
+  const localSotageBookmarks = JSON.parse(localStorage.getItem('myBookmarks'));
+
+  bookmarks.length = 0;
+
+  localSotageBookmarks.forEach((el) => {
+    bookmarks.push(el);
+  });
+
+};
+
+bookmarksLocalStorageChecker();
+
+export const removeBookmark = async (id: number) => {
 
   const newBookmarks = bookmarks.filter((el) => el.id !== id);
 
   bookmarks.length = 0;
-
-  // console.log(newBookmarks.length);
 
   if (newBookmarks.length < 1) {
     bookmarksModal.innerHTML = 'There are no bookmarks';
@@ -49,18 +69,7 @@ export const removeBookmark = async (id: number) => {
 
     bookmarks.push(data);
 
-    // console.log(bookmarks.length);
-
-    //////////////////////////////
-    //////////////////////////////
-    //////////////////////////////
-    //////////////////////////////
-    //////////////////////////////
-    //////////////////////////////
-
     bookmarksModal.innerHTML = '';
-
-    // if (bookmarks.length === 0) return;
 
     bookmarks.forEach((movie) => {
       const {
@@ -107,69 +116,34 @@ export const removeBookmark = async (id: number) => {
       `
         : '';
 
-      movieEl.innerHTML = `
-      <div class="col1 title-gender">
-            <h1>${title}</h1>
-            <ul class="movie-gen">
-              <li>${genres.join('')}</li>
-            </ul>
-          </div>
-          <div class="movie-img ${
-            !poster_path ? 'movie-img--default' : ''
-          }" ${bgImage} ></div>
-      <div class="text-movie-cont">
-        <div class="mr-grid">
-        </div>
-        <div class="mr-grid summary-row">
-          <div class="col2">
-            <h5>SUMMARY</h5>
-          </div>
-          <div class="col2">
-            <ul class="movie-likes">
-              <p>Score: ${vote}</p>
-              <li>${reaction()}</li>
-            </ul>
-          </div>
-        </div>
-        <div class="mr-grid">
-          <div class="col1">
-            <p class="movie-description">
-              ${overview.substring(0, 100)}...
-            </p>
-          </div>
-        </div>
-        <div class="mr-grid actors-row"></div>
-        <div class="mr-grid action-row">
-          <div class="col2 btns">
-            <div class="watch-btn">
-              <h3><i class="material-icons">&#xE037;</i>TRAILER</h3>
-            </div>
-            <div class="bookmark-remove">
-              <i class="fa-solid fa-bookmark bookmark-remove" data-id="${
-                movie.id
-              }"></i>
-            </div>
-        </div>
-      </div>
-    `;
+      movieEl.innerHTML = markupGenerator(
+        title,
+        genres,
+        poster_path,
+        bgImage,
+        vote,
+        reaction,
+        overview,
+        movie,
+        isBookmarked,
+        fromBookmarks
+      );
 
       bookmarksModal.appendChild(movieEl);
     });
     bookmarkedListener();
     addTrailerBtnListener();
+    bookmarksToLocalStorage();
   });
 };
 
 export const bookmarkedListener = () => {
   const bookmerkedMovies = document.querySelectorAll('.bookmark-remove');
 
-  // console.log(bookmerkedMovies);
-
   bookmerkedMovies.forEach((movie) => {
     movie.addEventListener('click', () => {
       if (!movie.getAttribute('data-id')) return;
       const id = +movie.getAttribute('data-id');
-      // console.log(id);
       removeBookmark(id);
     });
   });
@@ -178,6 +152,7 @@ export const bookmarkedListener = () => {
 bookmarksBtn.addEventListener('click', () => {
   main.classList.toggle('hidden');
   bookmarksModal.classList.toggle('hidden');
+  bookmarksBtn.classList.toggle('active');
 
   if (bookmarksModal.classList.contains('hidden')) {
     getMovies(prevSearchTerm);
@@ -238,56 +213,24 @@ bookmarksBtn.addEventListener('click', () => {
       `
       : '';
 
-    movieEl.innerHTML = `
-      <div class="col1 title-gender">
-            <h1>${title}</h1>
-            <ul class="movie-gen">
-              <li>${genres.join('')}</li>
-            </ul>
-          </div>
-          <div class="movie-img ${
-            !poster_path ? 'movie-img--default' : ''
-          }" ${bgImage} ></div>
-      <div class="text-movie-cont">
-        <div class="mr-grid">
-
-        </div>
-        <div class="mr-grid summary-row">
-          <div class="col2">
-            <h5>SUMMARY</h5>
-          </div>
-          <div class="col2">
-            <ul class="movie-likes">
-              <p>Score: ${vote}</p>
-              <li>${reaction()}</li>
-            </ul>
-          </div>
-        </div>
-        <div class="mr-grid">
-          <div class="col1">
-            <p class="movie-description">
-              ${overview.substring(0, 100)}...
-            </p>
-          </div>
-        </div>
-        <div class="mr-grid actors-row"></div>
-        <div class="mr-grid action-row">
-          <div class="col2 btns">
-            <div class="watch-btn">
-              <h3><i class="material-icons">&#xE037;</i>TRAILER</h3>
-            </div>
-            <div class="bookmark-remove">
-              <i class="fa-solid fa-bookmark bookmark-remove" data-id="${
-                movie.id
-              }"></i>
-            </div>
-        </div>
-      </div>
-    `;
+    movieEl.innerHTML = markupGenerator(
+      title,
+      genres,
+      poster_path,
+      bgImage,
+      vote,
+      reaction,
+      overview,
+      movie,
+      isBookmarked,
+      fromBookmarks
+    );
 
     bookmarksModal.appendChild(movieEl);
   });
   bookmarkedListener();
+  addTrailerBtnListener();
+  window.scrollTo(0, 0);
 });
 
 export const addBookmark = async (id) => {
@@ -297,6 +240,7 @@ export const addBookmark = async (id) => {
   const data = await res.json();
 
   bookmarks.push(data);
+  bookmarksToLocalStorage();
 };
 
 // REMOVING BOOKMARK

@@ -1,5 +1,7 @@
 import { IMG_PATH, SEARCH_API, GENRES } from './Config';
 import { bookmarks } from './Bookmarks';
+import { markupGenerator } from './helper';
+
 const main = document.getElementById('main') as HTMLElement;
 
 let pageNum: number = 1;
@@ -77,7 +79,6 @@ export const showMovies = (movies: any[]) => {
     movieEl.setAttribute('data-id', movie.id);
 
     const isBookmarked = bookmarks.some((el) => el.id === movie.id);
-    // console.log(isBookmarked);
 
     const bgImage = poster_path
       ? `
@@ -85,53 +86,17 @@ export const showMovies = (movies: any[]) => {
     `
       : '';
 
-    movieEl.innerHTML = `
-    <div class="col1 title-gender">
-          <h1>${title}</h1>
-          <ul class="movie-gen">
-            <li>${genres.join('')}</li>
-          </ul>
-        </div>
-        <div class="movie-img ${
-          !poster_path ? 'movie-img--default' : ''
-        }" ${bgImage} ></div>
-    <div class="text-movie-cont">
-      <div class="mr-grid">
-        
-      </div>
-      <div class="mr-grid summary-row">
-        <div class="col2">
-          <h5>SUMMARY</h5>
-        </div>
-        <div class="col2">
-          <ul class="movie-likes">
-            <p>Score: ${vote}</p>
-            <li>${reaction()}</li>
-          </ul>
-        </div>
-      </div>
-      <div class="mr-grid">
-        <div class="col1">
-          <p class="movie-description">
-            ${overview.substring(0, 100)}...
-          </p>
-        </div>
-      </div>
-      <div class="mr-grid actors-row"></div>
-      <div class="mr-grid action-row">
-        <div class="col2 btns">
-          <div class="watch-btn">
-            <h3><i class="material-icons">&#xE037;</i>TRAILER</h3>
-          </div>
-          <div class="bookmark">
-            <i class="${
-              isBookmarked ? 'fa-solid' : 'fa-regular'
-            } fa-bookmark"></i>
-          </div>
-      </div>
-    </div>
-  `;
-
+      movieEl.innerHTML = markupGenerator(
+        title,
+        genres,
+        poster_path,
+        bgImage,
+        vote,
+        reaction,
+        overview,
+        movie,
+        isBookmarked,
+      );
     main.appendChild(movieEl);
   });
 };

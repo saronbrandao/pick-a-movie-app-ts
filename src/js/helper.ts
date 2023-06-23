@@ -2,14 +2,10 @@ import { getTrailerLink } from './DataFetching';
 import {
   addBookmark,
   removeBookmark,
-  bookmarkedListener,
   bookmarks as myBookmarks,
 } from './Bookmarks';
 
-const main = document.getElementById('main')!;
 const body = document.getElementsByTagName('BODY')[0];
-
-// console.log(body);
 
 // this function will get the clicked movie id, and use its id to fetch the trailer link and return it.
 export const addTrailerBtnListener = (): void => {
@@ -73,13 +69,10 @@ export const addTrailerBtnListener = (): void => {
   }, 200);
 };
 
-// stills testing it
 export const addBookmarkListener = () => {
   setTimeout(() => {
     const bookmarks = document.querySelectorAll('.bookmark');
     bookmarks.forEach((bookmark) => {
-      // console.log(bookmark);
-
       if (bookmark.getAttribute('listener')) {
         return;
       }
@@ -87,11 +80,7 @@ export const addBookmarkListener = () => {
       bookmark.addEventListener('click', (e) => {
         const id: number = +e.target.closest('.movie').getAttribute('data-id');
 
-        // console.log(myBookmarks);
-
         const isBookmarked = myBookmarks.some((el) => el.id === +id);
-
-        // console.log(isBookmarked);
 
         if (isBookmarked) {
           e.target.classList.remove('fa-solid');
@@ -108,4 +97,70 @@ export const addBookmarkListener = () => {
       });
     });
   }, 200);
+};
+
+export const markupGenerator = (
+  title,
+  genres,
+  poster_path,
+  bgImage,
+  vote,
+  reaction,
+  overview,
+  movie,
+  isBookmarked = false,
+  fromBookmarks = false
+) => {
+  console.log(fromBookmarks);
+
+  return `
+  <div class="col1 title-gender">
+        <h1>${title}</h1>
+        <ul class="movie-gen">
+          <li>${genres.join('')}</li>
+        </ul>
+      </div>
+      <div class="movie-img ${
+        !poster_path ? 'movie-img--default' : ''
+      }" ${bgImage} ></div>
+  <div class="text-movie-cont">
+    <div class="mr-grid">
+    </div>
+    <div class="mr-grid summary-row">
+      <div class="col2">
+        <h5>SUMMARY</h5>
+      </div>
+      <div class="col2">
+        <ul class="movie-likes">
+          <p>Score: ${vote}</p>
+          <li>${reaction()}</li>
+        </ul>
+      </div>
+    </div>
+    <div class="mr-grid">
+      <div class="col1">
+        <p class="movie-description">
+          ${overview.substring(0, 100)}...
+        </p>
+      </div>
+    </div>
+    <div class="mr-grid actors-row"></div>
+    <div class="mr-grid action-row">
+      <div class="col2 btns">
+        <div class="watch-btn">
+          <h3><i class="material-icons">&#xE037;</i>TRAILER</h3>
+        </div>
+        ${
+          fromBookmarks
+            ? `<div class="bookmark-remove">
+        <i class="fa-solid fa-bookmark bookmark-remove" data-id="${movie.id}"></i>
+      </div>`
+            : `<div class="bookmark">
+      <i class="${isBookmarked ? 'fa-solid' : 'fa-regular'} fa-bookmark"></i>
+    </div>`
+        }
+        
+    </div>
+  </div>
+`;
 };

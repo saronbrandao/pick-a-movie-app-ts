@@ -66,7 +66,7 @@ export const addTrailerBtnListener = (): void => {
         }
       });
     });
-  }, 200);
+  }, 500);
 };
 
 export const addBookmarkListener = () => {
@@ -110,7 +110,7 @@ export const addBookmarkListener = () => {
         }
       });
     });
-  }, 200);
+  }, 500);
 };
 
 export const markupGenerator = (

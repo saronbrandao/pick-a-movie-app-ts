@@ -2,6 +2,8 @@ import { getMovies } from './DataFetching';
 import { addTrailerBtnListener, addBookmarkListener } from './helper';
 import { prevSearchTerm } from './Cards';
 
+const rootDirectory = window.location.origin;
+
 const botBtn = document.querySelector('.bot-icon');
 const bookmarksBtn = document.querySelector('.bookmarks');
 const bookmarksModal = document.querySelector('.bookmarks-modal');
@@ -15,7 +17,7 @@ export const formContentInnerHTML = `<div class="robot-spinner-container">
 </div>
 </div>
 <div class="form-container__robot">
-<img src="./public/img/robot.svg" alt="Description of the SVG image" />
+<img src="${rootDirectory}/img/robot.svg" alt="Description of the SVG image" />
 </div>
 <div class="form-container__text">
 <h1>

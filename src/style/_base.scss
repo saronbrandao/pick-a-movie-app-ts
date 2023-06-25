@@ -48,6 +48,23 @@ main {
   gap: 30px;
   align-items: center;
 
+  .bot-icon {
+    font-size: 1.5rem;
+    color: $primary-color;
+    transition: color 0.5s;
+    cursor: pointer;
+
+    &.active {
+      color: $brand-color;
+    }
+
+    @media (min-width: 900px) {
+      &:hover {
+        color: $accent-color;
+      }
+    }
+  }
+
   .bookmarks {
     margin-right: auto;
     font-size: 1.5rem;
@@ -57,6 +74,12 @@ main {
 
     &.active {
       color: $brand-color;
+    }
+
+    @media (min-width: 900px) {
+      &:hover {
+        color: $accent-color;
+      }
     }
   }
 }

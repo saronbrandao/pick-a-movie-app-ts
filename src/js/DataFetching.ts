@@ -3,6 +3,7 @@ import { bookmarks } from './Bookmarks';
 import { markupGenerator } from './helper';
 
 const main = document.getElementById('main') as HTMLElement;
+const searchFail = document.createElement('div');
 
 let pageNum: number = 1;
 let currentSearchTerm: string = '';
@@ -49,6 +50,8 @@ export const showMovies = (movies: any[]) => {
     const { title, poster_path, vote_average, overview, genre_ids } = movie;
     const genres: string[] = [];
 
+    searchFail.remove();
+
     // getting the gender based on the gernder id
     genre_ids.map((genre: number) => {
       if (genres.length === genre_ids.length - 1) {
@@ -78,7 +81,7 @@ export const showMovies = (movies: any[]) => {
     movieEl.classList.add('main');
     movieEl.setAttribute('data-id', movie.id);
 
-    const isBookmarked = bookmarks.some(el => el.id === movie.id);
+    const isBookmarked = bookmarks.some((el) => el.id === movie.id);
 
     const bgImage = poster_path
       ? `
@@ -86,17 +89,17 @@ export const showMovies = (movies: any[]) => {
     `
       : '';
 
-      movieEl.innerHTML = markupGenerator(
-        title,
-        genres,
-        poster_path,
-        bgImage,
-        vote,
-        reaction,
-        overview,
-        movie,
-        isBookmarked,
-      );
+    movieEl.innerHTML = markupGenerator(
+      title,
+      genres,
+      poster_path,
+      bgImage,
+      vote,
+      reaction,
+      overview,
+      movie,
+      isBookmarked
+    );
     main.appendChild(movieEl);
   });
 };

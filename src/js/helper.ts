@@ -82,8 +82,7 @@ export const addBookmarkListener = () => {
         const movieElement = targetElement.closest('.movie');
 
         if (!movieElement) return;
-        // if(targetElement) return;
-        // const id: number = +targetElement.closest('.movie').getAttribute('data-id');
+
         const id = movieElement.getAttribute('data-id');
 
         if (!id) return;
@@ -94,16 +93,12 @@ export const addBookmarkListener = () => {
           const targetElement = e.target as HTMLElement;
           targetElement?.classList.remove('fa-solid');
           targetElement?.classList.add('fa-regular');
-          // e.target.classList.remove('fa-solid');
-          // e.target.classList.add('fa-regular');
           removeBookmark(+id);
           return;
         } else {
           const targetElement = e.target as HTMLElement;
           targetElement?.classList.remove('fa-regular');
           targetElement?.classList.add('fa-solid');
-          // e.target.classList.remove('fa-regular');
-          // e.target.classList.add('fa-solid');
           addBookmark(+id);
 
           return;
@@ -125,8 +120,6 @@ export const markupGenerator = (
   isBookmarked: boolean = false,
   fromBookmarks: boolean = false
 ) => {
-  console.log(fromBookmarks);
-
   return `
   <div class="col1 title-gender">
         <h1>${title}</h1>

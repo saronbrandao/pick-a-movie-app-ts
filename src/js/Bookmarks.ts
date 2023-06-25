@@ -11,6 +11,8 @@ const bookmarksBtn = document.querySelector('.bookmarks');
 const main = document.getElementById('main') as HTMLElement;
 const bookmarksModal = document.querySelector('.bookmarks-modal');
 const fromBookmarks = true;
+const formContainer = document.querySelector('.form-container');
+const botBtn = document.querySelector('.bot-icon');
 
 interface Bookmark {
   title: string;
@@ -22,6 +24,8 @@ interface Bookmark {
   id?: string;
 }
 export const bookmarks: Bookmark[] = [];
+// userBookmarks will be implemented later for sharing
+// let userBookmarks: string = '';
 const isBookmarked = true;
 
 interface Emoji {
@@ -100,8 +104,6 @@ export const removeBookmark = async (id: number) => {
         }
       });
 
-      // const voteAvg = +vote_average
-
       const vote: number = +vote_average.toFixed(1);
 
       const reaction = () => {
@@ -162,9 +164,16 @@ export const bookmarkedListener = () => {
 };
 
 bookmarksBtn!.addEventListener('click', async () => {
-  main.classList.toggle('hidden');
+  if (bookmarksBtn?.classList.contains('active')) {
+    main.classList.remove('hidden');
+  } else {
+    main.classList.add('hidden');
+  }
   bookmarksModal!.classList.toggle('hidden');
   bookmarksBtn!.classList.toggle('active');
+  botBtn!.classList.remove('active');
+  formContainer!.innerHTML = '';
+  formContainer?.classList.add('hidden');
 
   if (bookmarksModal!.classList.contains('hidden')) {
     await getMovies(prevSearchTerm);
@@ -254,5 +263,3 @@ export const addBookmark = async (id: number) => {
   bookmarks.push(data);
   bookmarksToLocalStorage();
 };
-
-// REMOVING BOOKMARK

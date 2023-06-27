@@ -24,6 +24,11 @@
     &.--searching {
       bottom: 63px;
     }
+
+    &.--hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
   }
 
   &__text {
@@ -60,11 +65,6 @@
       resize: none;
       transition: all 0.3s;
       font-size: 1.16rem;
-      // color: green;
-
-      // &::selection {
-      //   color: blue;
-      // }
 
       &:focus {
         outline: none;

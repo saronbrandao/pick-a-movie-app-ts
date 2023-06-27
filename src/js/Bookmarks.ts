@@ -164,6 +164,7 @@ export const bookmarkedListener = () => {
 };
 
 bookmarksBtn!.addEventListener('click', async () => {
+  document.querySelector('.movie-list-container')?.remove();
   if (bookmarksBtn?.classList.contains('active')) {
     main.classList.remove('hidden');
   } else {

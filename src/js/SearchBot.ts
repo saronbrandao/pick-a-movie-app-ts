@@ -1,14 +1,22 @@
 import { getMovies } from './DataFetching';
-import { addTrailerBtnListener, addBookmarkListener } from './helper';
+import {
+  addTrailerBtnListener,
+  addBookmarkListener,
+  typeText,
+  handleSubmit,
+} from './helper';
 import { prevSearchTerm } from './Cards';
 
 const rootDirectory = window.location.origin;
-
 const botBtn = document.querySelector('.bot-icon');
 const bookmarksBtn = document.querySelector('.bookmarks');
 const bookmarksModal = document.querySelector('.bookmarks-modal');
 const formContainer = document.querySelector('.form-container');
 const main = document.getElementById('main') as HTMLElement;
+const topMovies = document.createElement('div');
+topMovies.classList.add('movie-list-container');
+
+let movieDescription = '';
 
 export const formContentInnerHTML = `<div class="robot-spinner-container">
 <div class="robot-spinner-container__spinner">
@@ -44,7 +52,7 @@ export const searchBotListeners = () => {
 
   const searchTextArea = document.querySelector(
     '.form-container__form__text-area'
-  );
+  ) as HTMLTextAreaElement;
   const searchBot = document.querySelector('.form-container__robot');
   const explainerText = document.querySelector('.form-container__text');
 
@@ -62,9 +70,24 @@ export const searchBotListeners = () => {
     }, 100);
   });
 
-  getMoviesBtn?.addEventListener('click', (e) => {
+  getMoviesBtn?.addEventListener('click', async (e) => {
     e.preventDefault();
-    // console.log('submited');
+
+    const alertMessage = 'Description is too short! I need more information :)';
+
+    movieDescription = searchTextArea?.value;
+
+    if (searchTextArea?.value.length < 30) {
+      searchTextArea!.value = ' ';
+      getMoviesBtn?.classList.add('--hidden');
+      typeText(searchTextArea, alertMessage);
+      setTimeout(() => {
+        searchTextArea!.value = movieDescription;
+        getMoviesBtn?.classList.remove('--hidden');
+      }, 2000);
+      return;
+    }
+
     searchBot?.classList.add('--searching');
     explainerText?.classList.add('--hidden');
     searchTextArea?.classList.add('--hidden');
@@ -73,10 +96,44 @@ export const searchBotListeners = () => {
     setTimeout(() => {
       robotLoadAnim?.classList.add('--active');
     }, 300);
+
+    const res = await handleSubmit(movieDescription);
+
+    if (res.ok) {
+      // THIS WILL BE ADDED LATER
+      // const data = await res.json();
+
+      setTimeout(() => {
+        searchBot?.classList.add('--hidden');
+        robotLoadAnim?.classList.remove('--active');
+        if (!document.querySelector('.movie-list-container')) {
+          const topMovies = document.createElement('div');
+          topMovies.classList.add('movie-list-container');
+        }
+        setTimeout(() => {
+          topMovies.innerHTML = `
+          <h1>Top 10 ( Demo List )</h1>
+          <p>"Movie Title"</p>
+          <p>"Movie Title"</p>
+          <p>"Movie Title"</p>
+          <p>"Movie Title"</p>
+          <p>"Movie Title"</p>
+          <p>"Movie Title"</p>
+          <p>"Movie Title"</p>
+          <p>"Movie Title"</p>
+          <p>"Movie Title"</p>
+          <p>"Movie Title"</p>`;
+
+          main.appendChild(topMovies);
+          main.classList.remove('hidden');
+        }, 1000);
+      }, 3000);
+    }
   });
 };
 
 botBtn?.addEventListener('click', async () => {
+  topMovies.remove();
   if (botBtn.classList.contains('active')) {
     botBtn.classList.remove('active');
     formContainer!.innerHTML = '';
@@ -88,6 +145,9 @@ botBtn?.addEventListener('click', async () => {
 
     return;
   }
+  setTimeout(() => {
+    main.innerHTML = '';
+  }, 200);
   formContainer?.classList.remove('hidden');
 
   botBtn.classList.toggle('active');

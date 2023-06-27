@@ -171,3 +171,30 @@ export const markupGenerator = (
   </div>
 `;
 };
+
+export const typeText = (el: HTMLTextAreaElement, text: string) => {
+  let index = 0;
+
+  let interval = setInterval(() => {
+    if (index < text.length) {
+      el.value += text.charAt(index);
+      index++;
+    } else {
+      clearInterval(interval);
+    }
+  }, 20);
+};
+
+export const handleSubmit = async (data: string) => {
+  const movieList = await fetch('http://localhost:5000/moviebot', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      prompt: data,
+    }),
+  });
+
+  return movieList;
+};

@@ -1,4 +1,5 @@
-import { IMG_PATH, GENRES } from './Config';
+import { GENRES } from './Config';
+// import { IMG_PATH, GENRES } from './Config';
 import { getMovies } from './DataFetching';
 import { prevSearchTerm } from './Cards';
 import {
@@ -6,6 +7,7 @@ import {
   addBookmarkListener,
   markupGenerator,
 } from './helper';
+
 
 const bookmarksBtn = document.querySelector('.bookmarks');
 const main = document.getElementById('main') as HTMLElement;
@@ -126,7 +128,7 @@ export const removeBookmark = async (id: number) => {
 
       const bgImage = poster_path
         ? `
-      style="background-image: url('${IMG_PATH + poster_path}')"
+      style="background-image: url('${process.env.IMG_PATH + poster_path}')"
       `
         : '';
 
@@ -231,7 +233,7 @@ bookmarksBtn!.addEventListener('click', async () => {
 
     const bgImage = poster_path
       ? `
-      style="background-image: url('${IMG_PATH + poster_path}')"
+      style="background-image: url('${process.env.IMG_PATH + poster_path}')"
       `
       : '';
 

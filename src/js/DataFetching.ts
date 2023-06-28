@@ -1,4 +1,5 @@
-import { IMG_PATH, SEARCH_API, GENRES } from './Config';
+import {  GENRES } from './Config';
+// import { IMG_PATH, SEARCH_API, GENRES } from './Config';
 import { bookmarks } from './Bookmarks';
 import { markupGenerator } from './helper';
 
@@ -24,7 +25,7 @@ const emoji: Emoji = {
 
 export const getMovies = async (term: string): Promise<void> => {
   currentSearchTerm = term;
-  const search: string = SEARCH_API + term + `&page=${pageNum}`;
+  const search: string = process.env.SEARCH_API + term + `&page=${pageNum}`;
   const res = await fetch(search);
   const data = await res.json();
 
@@ -36,7 +37,7 @@ export const getMovies = async (term: string): Promise<void> => {
 };
 
 export const getMoviesRefresher = async (): Promise<void> => {
-  const search = SEARCH_API + currentSearchTerm + `&page=${pageNum}`;
+  const search = process.env.SEARCH_API + currentSearchTerm + `&page=${pageNum}`;
   const res = await fetch(search);
   const data = await res.json();
 
@@ -85,7 +86,7 @@ export const showMovies = (movies: any[]) => {
 
     const bgImage = poster_path
       ? `
-    style="background-image: url('${IMG_PATH + poster_path}')"
+    style="background-image: url('${process.env.IMG_PATH + poster_path}')"
     `
       : '';
 

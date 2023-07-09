@@ -20,14 +20,6 @@ Check out the live demo: [Pick A Movie](https://saron-movie-app.netlify.app/)
 - TMDb API (The Movie Database)
 - Chat GPT (Language model for movie recommendations)
 
-## Contributing
-Contributions are always welcome! If you'd like to contribute to Pick A Movie, please follow these steps:
-1. Fork the repository.
-2. Create a new branch: `git checkout -b my-new-feature`
-3. Make your changes and commit them: `git commit -am 'Add some feature'`
-4. Push to the branch: `git push origin my-new-feature`
-5. Submit a pull request outlining the changes you've made.
-
 ## Credits
 - Pick A Movie was created by Saron Brandao.
 - Movie data and search functionality provided by TMDb API.
